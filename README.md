@@ -1,7 +1,12 @@
 # rpi-client
 Code for raspberry pi client interfacing
 
-# OpenWeatherMap API: 
-  -User: nelso345@purdue.edu
-  -Password: SDWeather
-  -API Key: ec6468538fccd2f63913d50b7ff81834
+## OpenWeatherMap API: 
+  - High, Low temps
+  - Current temp
+  - Weather condition (rain, snow, sun, etc)
+
+## News API:
+  - Sports (ESPN)
+  - News (BBC)
+  [Powered by News API](http://newsapi.org)
