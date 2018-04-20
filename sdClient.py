@@ -1,7 +1,9 @@
+# -*- coding: ASCII -*p
 import urllib.request
 import json
 import requests
 import random
+import serial
 import pprint as pp
 
 def getWeather():
@@ -41,12 +43,24 @@ def getNews():
 
     return titles
 
+def uart_setup():
+    ser = serial.Serial()
+    ser.port = '/dev/serial0'
+    ser.baudrate = 115200
+    ser.timeout = 5
+    ser.open()
+
+    ser.write("Hello World!\n".encode())
+    message = ser.readline()
+    ser.write("You send: ".encode() + message)
+    ser.write("\nBye!".encode())
+
 if __name__ == "__main__":
     # out = getWeather()
     # temp = out.get('main').get('temp')
     # condition = out['weather'][0]['main']
     # max = out.get('main').get('temp_max')
     # min = out.get('main').get('temp_min')
-
-    print(random.choice(getNews()))
+    uart_setup()
+    # print(random.choice(getNews()))
     # print(createResultString(getWeather()))
