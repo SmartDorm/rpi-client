@@ -15,9 +15,10 @@ class Client:
         self.port = serial.Serial(
             port = '\dev\serial0',
             baudrate = 115200,
-            timeout = 1
+            timeout = 0
         )
         self.port.open()
+        self.updated = False
 
     def update(self):
         curr = datetime.datetime.now()
@@ -26,6 +27,11 @@ class Client:
             self.weather = getWeather()
             tmp = getNews()
             self.headlines = getNews()
+
+    def write_serial(self, data_string):
+        self.port.write(data_string)
+        self.port.write("\n".encode())
+
 
 def getWeather():
     api_key = "ec6468538fccd2f63913d50b7ff81834"
@@ -76,12 +82,27 @@ def uart_setup():
     ser.write("You send: ".encode() + message)
     ser.write("\nBye!".encode())
 
+def main_loop(client):
+    while True:
+        out = client.port.read(5) # 5 byte control words
+        client.update()
+
+        if out:
+
+
+
+
+
+def init():
+    return Client()
+
 if __name__ == "__main__":
     # out = getWeather()
     # temp = out.get('main').get('temp')
     # condition = out['weather'][0]['main']
     # max = out.get('main').get('temp_max')
     # min = out.get('main').get('temp_min')
-    uart_setup()
+    # uart_setup()
     # print(random.choice(getNews()))
     # print(createResultString(getWeather()))
+    main_loop(init())
