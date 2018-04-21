@@ -5,6 +5,27 @@ import requests
 import random
 import serial
 import pprint as pp
+import datetime
+
+class Client:
+    def __init__(self):
+        self.weather = getWeather()
+        self.headlines = getNews()
+        self.rtc = datetime.datetime.now()
+        self.port = serial.Serial(
+            port = '\dev\serial0',
+            baudrate = 115200,
+            timeout = 1
+        )
+        self.port.open()
+
+    def update(self):
+        curr = datetime.datetime.now()
+        if (curr - self.rtc).total_seconds() >= 600: # 10 minutes
+            self.rtc = curr
+            self.weather = getWeather()
+            tmp = getNews()
+            self.headlines = getNews()
 
 def getWeather():
     api_key = "ec6468538fccd2f63913d50b7ff81834"
